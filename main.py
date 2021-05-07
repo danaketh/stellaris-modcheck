@@ -3,12 +3,19 @@
 import os
 import sqlite3
 import json
+import re
 
 base_path = os.path.expanduser('~/Documents/Paradox Interactive/Stellaris')
 export = {
+    'name': '',
     'playsets': [],
     'mods': []
 }
+
+with open(base_path + '/settings.txt') as reader:
+    s = re.search('name="(.+?)"', reader.read())
+    if s:
+        export['name'] = s.group(1)
 
 # Tables: mods, mods_dependencies, playsets, playsets_mods
 db = sqlite3.connect(base_path + '/launcher-v2.sqlite')
